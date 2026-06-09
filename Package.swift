@@ -26,5 +26,9 @@ let package = Package(
                 "FNVHash"
             ]
         ),
+        .testTarget(
+            name: "FNVHashTests",
+            dependencies: ["FNVHash"]
+        ),
     ]
 )
