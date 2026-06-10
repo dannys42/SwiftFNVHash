@@ -29,7 +29,7 @@ import Foundation
 /// ### Convenience Methods
 ///
 /// - ``combine(_:)``
-protocol FNVHash {
+public protocol FNVHash {
     /// The numeric type used to represent the hash value.
     ///
     /// Currently only `UInt32` and `UInt64` are supported.
