@@ -1,8 +1,8 @@
 import ArgumentParser
 
 @main
-struct FNVHash: ParsableCommand {
-    mutating func run() throws {
+struct FNVHash: AsyncParsableCommand {
+    mutating func run() async throws {
         print("Hello, world!")
     }
 }
