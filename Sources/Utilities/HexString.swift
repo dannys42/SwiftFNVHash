@@ -2,26 +2,26 @@ import Foundation
 
 // MARK: - Test Utilities
 
-extension Sequence where Element == UInt8 {
+package extension Sequence where Element == UInt8 {
     var asHexString: String {
         self.map { String($0, radix: 16) }
             .joined()
     }
 }
 
-extension UInt32 {
+package extension UInt32 {
     var asHexString: String {
         String(self, radix: 16)
     }
 }
 
-extension UInt64 {
+package extension UInt64 {
     var asHexString: String {
         String(self, radix: 16)
     }
 }
 
-extension UInt128 {
+package extension UInt128 {
     var asHexString: String {
         String(self, radix: 16)
     }

@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import Utilities
 @testable import FNVHash
 
 @Suite("FNV1a-32 String Tests")

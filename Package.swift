@@ -20,16 +20,21 @@ let package = Package(
             name: "FNVHash",
             dependencies: []
         ),
+        .target(
+            name: "Utilities",
+            dependencies: []
+        ),
         .executableTarget(
             name: "fnv",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                "FNVHash"
+                "FNVHash",
+                "Utilities"
             ]
         ),
         .testTarget(
             name: "FNVHashTests",
-            dependencies: ["FNVHash"]
+            dependencies: ["FNVHash", "Utilities"]
         ),
     ]
 )
