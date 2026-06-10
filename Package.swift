@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "FNVHash",
+    platforms: [ .macOS(.v15), .iOS(.v15), .tvOS(.v15), .watchOS(.v8), .macCatalyst(.v15), .visionOS(.v1) ],
     products: [
         .executable(name: "fnv", targets: ["fnv"]),
         .library(name: "FNVHash", targets: ["FNVHash"]),

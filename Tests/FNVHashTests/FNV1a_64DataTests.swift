@@ -7,10 +7,9 @@ struct FNV1a64DataTests {
 
     // MARK: - Test Vectors
 
-    /// Test vectors for 4-byte data sequences
-    /// These test various byte patterns including edge cases
+    /// Subset of FNV1-64 test vectors from https://github.com/lcn2/fnv/blob/6f5d7fa29f92987311223e71ecf8b13f7c5551f2/test_fnv.c
     static let dataTestVectors: [(bytes: [UInt8], expected: UInt64)] = [
-        ([0xff, 0x00, 0x00, 0x01], 0x6961196491cc682d),
+        ([0xff, 0x00, 0x00, 0x01], 0x6961196491cc682d), // Index 88
         ([0x01, 0x00, 0x00, 0xff], 0xad2bb1774799dfe9),
         ([0xff, 0x00, 0x00, 0x02], 0x6961166491cc6314),
         ([0x02, 0x00, 0x00, 0xff], 0x8d1bb3904a3b1236),
@@ -22,7 +21,7 @@ struct FNV1a64DataTests {
         ([0x44, 0x4e, 0x51, 0x40], 0xf77f1072c8e8a646),
         ([0x40, 0x51, 0x4e, 0x4a], 0xe3b36396127cd372),
         ([0x4a, 0x4e, 0x51, 0x40], 0x6067dce9932ad458),
-        ([0x40, 0x51, 0x4e, 0x54], 0xe3b37596127cf208),
+        ([0x40, 0x51, 0x4e, 0x54], 0xe3b37596127cf208), // Index 100
     ]
 
     // MARK: - Data Tests
@@ -63,18 +62,5 @@ struct FNV1a64DataTests {
             let arrayResult = vector.bytes.fnv1a_64()
             #expect(dataResult == arrayResult, "Data and byte array results should match")
         }
-    }
-}
-
-extension Sequence where Element == UInt8 {
-    var asHexString: String {
-        self.map { String($0, radix: 16) }
-            .joined()
-    }
-}
-
-extension UInt64 {
-    var asHexString: String {
-        String(self, radix: 16)
     }
 }
