@@ -32,17 +32,4 @@ extension String {
         return self.utf8.fnv1_64()
     }
 
-    #if false
-    /// Computes the FNV1a-128 hash of the string's UTF-8 representation.
-    /// - Returns: A tuple of (high, low) UInt64 values representing the 128-bit hash
-    public func fnv1a_128() -> (high: UInt64, low: UInt64) {
-        return self.utf8.fnv1a_128()
-    }
-    
-    /// Computes the FNV1-128 hash of the string's UTF-8 representation.
-    /// - Returns: A tuple of (high, low) UInt64 values representing the 128-bit hash
-    public func fnv1_128() -> (high: UInt64, low: UInt64) {
-        return self.utf8.fnv1_128()
-    }
-    #endif
 }

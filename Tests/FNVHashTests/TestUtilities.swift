@@ -20,3 +20,9 @@ extension UInt64 {
         String(self, radix: 16)
     }
 }
+
+extension UInt128 {
+    var asHexString: String {
+        String(self, radix: 16)
+    }
+}

@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  FNVHash
-//
-//  Created by Danny Sung on 6/9/26.
-//
-
 import Foundation
 
 extension Sequence where Element == UInt8 {
