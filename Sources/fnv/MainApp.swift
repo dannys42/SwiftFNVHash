@@ -34,25 +34,20 @@ struct FNVHashMain: AsyncParsableCommand {
             let result = try Self.hashFile(files[0], bits: bits, algorithm: algorithm)
             print(result)
         } else {
-            try await withThrowingTaskGroup(of: (String, String).self) { group in
+            try await withThrowingTaskGroup(of: HashResult.self) { group in
                 for file in files {
                     let bits = bits
                     let algorithm = algorithm
                     group.addTask {
                         let result = try Self.hashFile(file, bits: bits, algorithm: algorithm)
-                        return (file, result)
+                        return result
                     }
                 }
 
                 // Collect results and maintain order
-                var results: [String: String] = [:]
-                for try await (_, result) in group {
-                    // Extract filename from result (format: "hash  filename")
-                    let parts = result.split(separator: "  ", maxSplits: 1)
-                    if parts.count == 2 {
-                        let filename = String(parts[1])
-                        results[filename] = result
-                    }
+                var results: [String: HashResult] = [:]
+                for try await result in group {
+                    results[result.filename] = result
                 }
 
                 // Print in original order
@@ -65,19 +60,32 @@ struct FNVHashMain: AsyncParsableCommand {
         }
     }
 
-    private static func hashFile(_ filename: String, bits: BitSize, algorithm: Algorithm) throws -> String {
+    struct HashResult: CustomStringConvertible {
+        let hashData: Data
+        let hashString: String
+        let filename: String
+
+        var description: String {
+            "\(hashString)  \(filename)"
+        }
+
+    }
+    private static func hashFile(_ filename: String, bits: BitSize, algorithm: Algorithm) throws -> HashResult {
+
         let fileURL = URL(fileURLWithPath: filename)
-        let data = try Data(contentsOf: fileURL, options: .mappedIfSafe)
+        let inputData = try Data(contentsOf: fileURL, options: .mappedIfSafe)
 
         var hasher = self.hasher(bits: bits, algorithm: algorithm)
 
-        hasher.combine(data)
+        hasher.combine(inputData)
         let value = hasher.finalize()
         let hexString = value.asHexString
+        let valueData = withUnsafeBytes(of: value) { Data($0) }
 
-        return "\(hexString)  \(filename)"
+        return HashResult(hashData: valueData,
+                          hashString: hexString,
+                          filename: filename)
     }
-
 
     private static func hasher(bits: BitSize, algorithm: Algorithm) -> any FNVHash {
         switch (bits, algorithm) {
