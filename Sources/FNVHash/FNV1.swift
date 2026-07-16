@@ -45,4 +45,28 @@ public enum FNV1 {
             state
         }
     }
+
+    @available(macOS 15, iOS 18, tvOS 18, watchOS 11, macCatalyst 18, visionOS 2, *)
+    public struct Hash128: FNVHash {
+        private var state: UInt128 = fnv128OffsetBasis
+
+        public init() {}
+
+        public mutating func update(byte: UInt8) {
+            state = state &* fnv128Prime
+            state ^= UInt128(byte)
+        }
+
+        public mutating func update(bufferPointer: UnsafeRawBufferPointer) {
+            for byte in bufferPointer {
+                state = state &* fnv128Prime
+                state ^= UInt128(byte)
+            }
+        }
+
+        public consuming func finalize() -> UInt128 {
+            // Match Swift.Hasher semantics: finalization is terminal even though FNV state could continue.
+            state
+        }
+    }
 }
