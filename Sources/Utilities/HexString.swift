@@ -12,7 +12,7 @@ public extension Sequence where Element == UInt8 {
     }
 }
 
-public extension FixedWidthInteger {
+public extension FixedWidthInteger where Self: UnsignedInteger {
     var asHexString: String {
         let hexadecimal = String(self, radix: 16)
         let paddingCount = Swift.max(0, Self.bitWidth / 4 - hexadecimal.count)
