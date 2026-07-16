@@ -1,7 +1,8 @@
 /// A stateful, non-cryptographic Fowler–Noll–Vo hash function.
 ///
-/// `hash(string:)` and `update(data:)` hash a string's UTF-8 bytes. Treat
-/// `finalize()` as terminal and create a new value before hashing more input.
+/// `hash(string:)` hashes a string's UTF-8 bytes; `update(data:)` incorporates
+/// the supplied bytes. Treat `finalize()` as terminal and create a new value
+/// before hashing more input.
 public protocol FNVHash {
     associatedtype Digest: UnsignedInteger & FixedWidthInteger
 
