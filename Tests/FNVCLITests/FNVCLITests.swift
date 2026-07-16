@@ -2,6 +2,24 @@ import Foundation
 import Testing
 @testable import FNVCLI
 
+private actor ActivityProbe {
+    private var active = 0
+    private var maximum = 0
+
+    func started() {
+        active += 1
+        maximum = max(maximum, active)
+    }
+
+    func finished() {
+        active -= 1
+    }
+
+    func maximumActivity() -> Int {
+        maximum
+    }
+}
+
 @Suite("FNV CLI")
 struct FNVCLITests {
     @Test("all width and algorithm pairs dispatch")
@@ -23,5 +41,52 @@ struct FNVCLITests {
     func hashResultDescription() {
         let result = HashResult(index: 4, hashString: "00000001", filename: "input.bin")
         #expect(result.description == "00000001  input.bin")
+    }
+
+    @Test("file hashing bounds concurrency and preserves input order and duplicates")
+    func boundedFileHashing() async throws {
+        let filenames = ["zero", "duplicate", "two", "three", "duplicate", "five", "six", "seven", "eight", "nine"]
+        let probe = ActivityProbe()
+
+        let results = try await FNVCLI.hashFiles(
+            filenames,
+            bits: .bits64,
+            algorithm: .fnv1a,
+            maximumConcurrentTasks: 2
+        ) { filename, index, _, _ in
+            await probe.started()
+            do {
+                try await Task.sleep(for: .milliseconds((filenames.count - index) * 2))
+                await probe.finished()
+                return HashResult(index: index, hashString: "hash-\(index)", filename: filename)
+            } catch {
+                await probe.finished()
+                throw error
+            }
+        }
+
+        #expect(await probe.maximumActivity() == 2)
+        #expect(results.map(\.index) == Array(filenames.indices))
+        #expect(results.map(\.filename) == filenames)
+        #expect(results[1].filename == results[4].filename)
+        #expect(results[1].index != results[4].index)
+    }
+
+    @Test("file hashing rejects a nonpositive concurrency limit")
+    func invalidConcurrencyLimit() async {
+        do {
+            _ = try await FNVCLI.hashFiles(
+                ["input"],
+                bits: .bits64,
+                algorithm: .fnv1a,
+                maximumConcurrentTasks: 0
+            ) { _, _, _, _ in
+                Issue.record("Operation must not run for an invalid limit")
+                return HashResult(index: 0, hashString: "", filename: "")
+            }
+            Issue.record("Expected an invalid-limit error")
+        } catch {
+            #expect(error.localizedDescription.contains("greater than zero"))
+        }
     }
 }

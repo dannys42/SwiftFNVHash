@@ -43,13 +43,12 @@ struct FNVHashMain: AsyncParsableCommand {
     private var files: [String]
 
     mutating func run() async throws {
-        for (index, file) in files.enumerated() {
-            let result = try FNVCLI.hashFile(
-                file,
-                index: index,
-                bits: bits.supportValue,
-                algorithm: algorithm.supportValue
-            )
+        let results = try await FNVCLI.hashFiles(
+            files,
+            bits: bits.supportValue,
+            algorithm: algorithm.supportValue
+        )
+        for result in results {
             print(result)
         }
     }
