@@ -32,6 +32,11 @@ let package = Package(
                 "Utilities"
             ]
         ),
+        .executableTarget(
+            name: "FNVHashBenchmarks",
+            dependencies: ["FNVHash"],
+            path: "Benchmarks/FNVHashBenchmarks"
+        ),
         .testTarget(
             name: "FNVHashTests",
             dependencies: ["FNVHash", "Utilities"]
