@@ -30,6 +30,7 @@ private enum CLIAlgorithm: String, CaseIterable, Decodable, ExpressibleByArgumen
 @main
 struct FNVHashMain: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
+        commandName: "fnv",
         abstract: "Compute FNV hash values for files"
     )
 

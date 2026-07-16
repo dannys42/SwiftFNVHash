@@ -4,11 +4,19 @@
 /// the supplied bytes. Treat `finalize()` as terminal and create a new value
 /// before hashing more input.
 public protocol FNVHash {
+    /// The unsigned, fixed-width integer returned by this hash function.
     associatedtype Digest: UnsignedInteger & FixedWidthInteger
 
+    /// Creates a hasher initialized to its FNV offset basis.
     init()
+
+    /// Incorporates one byte into the hash state.
     mutating func update(byte: UInt8)
+
+    /// Incorporates the raw buffer's bytes in order without retaining the buffer.
     mutating func update(bufferPointer: UnsafeRawBufferPointer)
+
+    /// Returns the digest and consumes the hash state.
     consuming func finalize() -> Digest
 }
 

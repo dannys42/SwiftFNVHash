@@ -8,7 +8,7 @@ struct FNV128Tests {
     @Test("Trusted FNV-1 vectors")
     func fnv1Vectors() {
         // Expected values were independently derived from the FNV recurrence and
-        // FNV-128 constants standardized by RFC 9923: https://www.rfc-editor.org/rfc/rfc9923.html
+        // FNV-128 constants standardized by RFC 9923: https://www.rfc-editor.org/info/rfc9923
         let vectors: [(String, UInt128)] = [
             ("", 0x6c62272e07bb0142_62b821756295c58d),
             ("hello", 0xf14b58486483d94f_708038798c29697f),
@@ -23,7 +23,7 @@ struct FNV128Tests {
     @Test("Trusted FNV-1a vectors")
     func fnv1aVectors() {
         // Expected values were independently derived from the FNV recurrence and
-        // FNV-128 constants standardized by RFC 9923: https://www.rfc-editor.org/rfc/rfc9923.html
+        // FNV-128 constants standardized by RFC 9923: https://www.rfc-editor.org/info/rfc9923
         let vectors: [(String, UInt128)] = [
             ("", 0x6c62272e07bb0142_62b821756295c58d),
             ("a", 0xd228cb696f1a8caf_78912b704e4a8964),

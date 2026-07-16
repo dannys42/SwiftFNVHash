@@ -56,7 +56,7 @@ hasher.update(data: secondChunk)
 let digest: UInt64 = hasher.finalize()
 ```
 
-Treat `finalize()` as terminal, as you would Swift's `Hasher`: consume the digest and create a new hasher for additional input. Although the FNV calculation could technically continue from its state, that is intentionally not part of this API's contract.
+Treat `finalize()` as terminal, as you would Swift's `Hasher`: obtain the digest and create a new hasher for additional input. Although the FNV calculation could technically continue from its state, that is intentionally not part of this API's contract.
 
 The six concrete hash types are:
 
@@ -97,7 +97,7 @@ Files are hashed concurrently with a bounded number of tasks. Results retain the
 
 ## References
 
-- [RFC 9923: The FNV Non-Cryptographic Hash Algorithm](https://www.rfc-editor.org/rfc/rfc9923.html)
+- [RFC 9923: The FNV Non-Cryptographic Hash Algorithm](https://www.rfc-editor.org/info/rfc9923)
 - [Reference FNV repository](https://github.com/lcn2/fnv)
 
 ## License
