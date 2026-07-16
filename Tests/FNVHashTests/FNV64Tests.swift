@@ -4,6 +4,8 @@ import Testing
 
 @Suite("FNV64Tests")
 struct FNV64Tests {
+    /// FNV-1 values from the pinned upstream test vectors:
+    /// https://github.com/lcn2/fnv/blob/6f5d7fa29f92987311223e71ecf8b13f7c5551f2/test_fnv.c
     private static let fnv1Strings: [(String, UInt64)] = [
         ("", 0xcbf29ce484222325),
         ("foo", 0xd8cbc7186ba13533),
@@ -11,6 +13,8 @@ struct FNV64Tests {
         ("hello", 0x7b495389bdbdd4c7),
     ]
 
+    /// FNV-1a values standardized by RFC 9923 and present in the pinned upstream vectors:
+    /// https://github.com/lcn2/fnv/blob/6f5d7fa29f92987311223e71ecf8b13f7c5551f2/test_fnv.c
     private static let fnv1aStrings: [(String, UInt64)] = [
         ("", 0xcbf29ce484222325),
         ("foo", 0xdcb27518fed9d577),
@@ -18,6 +22,8 @@ struct FNV64Tests {
         ("hello", 0xa430d84680aabd0b),
     ]
 
+    /// FNV-1 values from the pinned upstream test vectors:
+    /// https://github.com/lcn2/fnv/blob/6f5d7fa29f92987311223e71ecf8b13f7c5551f2/test_fnv.c
     private static let fnv1Bytes: [([UInt8], UInt64)] = [
         ([0xff, 0x00, 0x00, 0x01], 0xd6b2b17bf4b71261), ([0x01, 0x00, 0x00, 0xff], 0x447bfb7f98e615b5),
         ([0xff, 0x00, 0x00, 0x02], 0xd6b2b17bf4b71262), ([0x02, 0x00, 0x00, 0xff], 0x3bd2807f93fe1660),
@@ -28,6 +34,8 @@ struct FNV64Tests {
         ([0x40, 0x51, 0x4e, 0x54], 0x23d3767e64b2f99a),
     ]
 
+    /// FNV-1a values standardized by RFC 9923 and present in the pinned upstream vectors:
+    /// https://github.com/lcn2/fnv/blob/6f5d7fa29f92987311223e71ecf8b13f7c5551f2/test_fnv.c
     private static let fnv1aBytes: [([UInt8], UInt64)] = [
         ([0xff, 0x00, 0x00, 0x01], 0x6961196491cc682d), ([0x01, 0x00, 0x00, 0xff], 0xad2bb1774799dfe9),
         ([0xff, 0x00, 0x00, 0x02], 0x6961166491cc6314), ([0x02, 0x00, 0x00, 0xff], 0x8d1bb3904a3b1236),
