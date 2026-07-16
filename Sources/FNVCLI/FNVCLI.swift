@@ -102,6 +102,7 @@ package enum FNVCLI {
                 group.addTask {
                     try Task.checkCancellation()
                     let result = try await operation(filename, index, bits, algorithm)
+                    try Task.checkCancellation()
                     return IndexedHashResult(index: index, result: result)
                 }
             }
@@ -119,11 +120,13 @@ package enum FNVCLI {
                     group.addTask {
                         try Task.checkCancellation()
                         let result = try await operation(filename, index, bits, algorithm)
+                        try Task.checkCancellation()
                         return IndexedHashResult(index: index, result: result)
                     }
                 }
             }
 
+            try Task.checkCancellation()
             return indexedResults.sorted { $0.index < $1.index }.map(\.result)
         }
     }
