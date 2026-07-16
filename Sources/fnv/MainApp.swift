@@ -61,7 +61,6 @@ struct FNVHashMain: AsyncParsableCommand {
     }
 
     struct HashResult: CustomStringConvertible {
-        let hashData: Data
         let hashString: String
         let filename: String
 
@@ -75,25 +74,19 @@ struct FNVHashMain: AsyncParsableCommand {
         let fileURL = URL(fileURLWithPath: filename)
         let inputData = try Data(contentsOf: fileURL, options: .mappedIfSafe)
 
-        var hasher = self.hasher(bits: bits, algorithm: algorithm)
-
-        hasher.combine(inputData)
-        let value = hasher.finalize()
-        let hexString = value.asHexString
-        let valueData = withUnsafeBytes(of: value) { Data($0) }
-
-        return HashResult(hashData: valueData,
-                          hashString: hexString,
-                          filename: filename)
-    }
-
-    private static func hasher(bits: BitSize, algorithm: Algorithm) -> any FNVHash {
+        let hexString: String
         switch (bits, algorithm) {
-        case (.bits32, .fnv1):  return FNV1Hash<UInt32>()
-        case (.bits32, .fnv1a): return FNV1aHash<UInt32>()
-        case (.bits64, .fnv1):  return FNV1Hash<UInt64>()
-        case (.bits64, .fnv1a): return FNV1aHash<UInt64>()
+        case (.bits32, .fnv1):
+            hexString = FNV1.Hash32.hash(data: inputData).asHexString
+        case (.bits32, .fnv1a):
+            hexString = FNV1a.Hash32.hash(data: inputData).asHexString
+        case (.bits64, .fnv1):
+            hexString = FNV1.Hash64.hash(data: inputData).asHexString
+        case (.bits64, .fnv1a):
+            hexString = FNV1a.Hash64.hash(data: inputData).asHexString
         }
 
+        return HashResult(hashString: hexString,
+                          filename: filename)
     }
 }
