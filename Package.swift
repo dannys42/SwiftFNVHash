@@ -24,12 +24,15 @@ let package = Package(
             name: "Utilities",
             dependencies: []
         ),
+        .target(
+            name: "FNVCLI",
+            dependencies: ["FNVHash", "Utilities"]
+        ),
         .executableTarget(
             name: "fnv",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                "FNVHash",
-                "Utilities"
+                "FNVCLI"
             ]
         ),
         .executableTarget(
@@ -40,6 +43,10 @@ let package = Package(
         .testTarget(
             name: "FNVHashTests",
             dependencies: ["FNVHash", "Utilities"]
+        ),
+        .testTarget(
+            name: "FNVCLITests",
+            dependencies: ["FNVCLI", "Utilities"]
         ),
     ]
 )
