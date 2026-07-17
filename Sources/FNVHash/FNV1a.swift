@@ -21,7 +21,6 @@ public enum FNV1a {
         }
 
         public consuming func finalize() -> UInt32 {
-            // Match Swift.Hasher semantics: finalization is terminal even though FNV state could continue.
             state
         }
     }
@@ -47,7 +46,6 @@ public enum FNV1a {
         }
 
         public consuming func finalize() -> UInt64 {
-            // Match Swift.Hasher semantics: finalization is terminal even though FNV state could continue.
             state
         }
     }
@@ -75,7 +73,6 @@ public enum FNV1a {
         }
 
         public consuming func finalize() -> UInt128 {
-            // Match Swift.Hasher semantics: finalization is terminal even though FNV state could continue.
             state
         }
     }

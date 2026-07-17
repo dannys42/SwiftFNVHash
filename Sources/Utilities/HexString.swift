@@ -1,5 +1,3 @@
-import Foundation
-
 // MARK: - Hex String Utilities
 
 public extension Sequence where Element == UInt8 {

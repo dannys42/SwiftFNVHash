@@ -3,12 +3,18 @@
 A pure Swift implementation of the non-cryptographic Fowler–Noll–Vo hash functions for Apple platforms.
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
-[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS%20%7C%20visionOS-lightgrey.svg)](https://developer.apple.com)
+[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20macOS%20%7C%20Mac%20Catalyst%20%7C%20tvOS%20%7C%20watchOS%20%7C%20visionOS-lightgrey.svg)](https://developer.apple.com)
 
 FNVHash provides FNV-1 and FNV-1a in 32-, 64-, and 128-bit forms. Its API follows the same one-shot and incremental shape as CryptoKit hash functions.
 
 > [!WARNING]
 > FNV is not a cryptographic hash. Do not use it where collision resistance, preimage resistance, authentication, signatures, or password storage are required.
+
+## When to use FNV
+
+FNV is appropriate when you need a small, inexpensive, reproducible hash for trusted or non-adversarial input. Common uses include deterministic partitioning or sharding, cache keys, persistent identifiers, hash tables whose inputs cannot be chosen by an attacker, deduplication prefilters, and checks for accidental data corruption.
+
+Applications must still tolerate collisions. For example, compare the original values after a hash match. Use a cryptographic hash or an appropriate keyed hash when inputs may be attacker-controlled or when correctness, integrity, or security depends on collisions being infeasible.
 
 ## Requirements
 
@@ -56,7 +62,7 @@ hasher.update(data: secondChunk)
 let digest: UInt64 = hasher.finalize()
 ```
 
-Treat `finalize()` as terminal, as you would Swift's `Hasher`: obtain the digest and create a new hasher for additional input. Although the FNV calculation could technically continue from its state, that is intentionally not part of this API's contract.
+After calling `finalize()`, create a new hasher before processing more input.
 
 The six concrete hash types are:
 
@@ -65,7 +71,7 @@ The six concrete hash types are:
 | FNV-1 (multiply, then XOR) | `FNV1.Hash32` | `FNV1.Hash64` | `FNV1.Hash128` |
 | FNV-1a (XOR, then multiply) | `FNV1a.Hash32` | `FNV1a.Hash64` | `FNV1a.Hash128` |
 
-For example, where `Hash128` is available:
+Guard `Hash128` calls with an availability check:
 
 ```swift
 import FNVHash

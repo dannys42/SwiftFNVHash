@@ -1,5 +1,3 @@
-import Foundation
-
 // FNV-32 constants
 internal let fnv32OffsetBasis: UInt32 = 0x811c9dc5
 internal let fnv32Prime: UInt32 = 0x01000193
