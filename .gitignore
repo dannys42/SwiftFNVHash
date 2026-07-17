@@ -8,3 +8,5 @@ DerivedData/
 .netrc
 /.worktrees/
 /docs/
+.vscode/
+graphify-out/
